@@ -35,10 +35,35 @@ export const initialBoardSetup = ()=>{
 
 export const isValidMove = (board, fromRow, fromCol, toRow, toCol, turn ) => {
     // check if the move is valid based on Antichess rules
-    return true; // replace with actual logic
+    const piece = board[fromRow][fromCol];
+    if(!piece || piece.color !== turn)
+        return false;
+
+    const targetPiece = board[toRow][toCol];
+    if(targetPiece && targetPiece.color == turn)
+        return false;
+
+    // Add specific movement rules for each piece type (Rook, Knight, Bishop, Queen, King, Pawn)
+  // For simplicity, we'll assume any move is valid here. This needs detailed implementation.
+    
+    return true;
 }
 
 export const makeMove = (board, fromRow, fromCol, toRow, toCol) =>{
     // update the board with the new move
-    return board; // replace with actual logic
+    const newBoard = board.map(row => row.map(cell => cell));
+    newBoard[toRow][toCol] = newBoard[fromRow][fromCol];
+    newBoard[fromRow][fromCol] = null;
+
+    return newBoard; 
+}
+
+export const checkWinner = (board) => {
+    const whitePieces = board.flat().filter(piece => piece && piece.color === 'white');
+    const blackPieces = board.flat().filter(piece => piece && piece.color === 'black');
+
+    if(whitePieces.length === 0) return 'Black';
+    if(blackPieces.length === 0) return 'White';
+
+    return null;
 }
